@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/TeamProject/HelpMeMrBobAnd/app/src/main/res/layout/activity_main.xml" value="0.3619791666666667" />
+        <entry key="..\:/TeamProject/HelpMeMrBobAnd/app/src/main/res/drawable/menu_icon.xml" value="0.1" />
+        <entry key="..\:/TeamProject/HelpMeMrBobAnd/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/TeamProject/HelpMeMrBobAnd/app/src/main/res/layout/header.xml" value="0.26666666666666666" />
       </map>
     </option>
   </component>

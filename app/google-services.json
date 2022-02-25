@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "745621701256",
+    "project_id": "helpmemrboband",
+    "storage_bucket": "helpmemrboband.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745621701256:android:486613daf3762d6d5d153d",
+        "android_client_info": {
+          "package_name": "com.helpme.helpmemrboband"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745621701256-gudu782oc16vadi17p7mobemfbukhk8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3OrBodDzRbTaiVMZhkEeboej14NmFOVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745621701256-gudu782oc16vadi17p7mobemfbukhk8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

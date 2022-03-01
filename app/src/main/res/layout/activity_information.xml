@@ -6,10 +6,37 @@
     tools:context=".Information"
     android:orientation="vertical">
 
-    <fragment
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        layout="@layout/header"
+        />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/map"
-        class="com.google.android.gms.maps.SupportMapFragment" />
+        android:orientation="vertical">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/searchField"
+            android:hint="검색어를 입력해주세요!"
+            android:selectAllOnFocus="true"
+            android:inputType="text"
+            android:imeOptions="actionSearch"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 위치"
+            android:id="@+id/myLocation"/>
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
 
 </LinearLayout>

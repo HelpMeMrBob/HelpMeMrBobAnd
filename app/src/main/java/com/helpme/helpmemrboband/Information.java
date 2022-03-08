@@ -136,6 +136,14 @@ public class Information extends AppCompatActivity {
 
         // 검색어 입력 영역
         searchField = findViewById(R.id.searchField);
+        if (menu != null) {
+            searchField.setText(menu);
+            Map<String, String> map = new HashMap<>();
+            map.put("search", menu);
+
+            MapTask task = new MapTask();
+            task.execute(map);
+        }
         searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

@@ -173,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
         menu_page1 = findViewById(R.id.menu_page1);
         menu_page2 = findViewById(R.id.menu_page2);
         menu_page3 = findViewById(R.id.menu_page3); //  지도 페이지
-        //  menu_page4 = findViewById(R.id.menu_page4); //  리뷰 페이지
-        //  menu_page5 = findViewById(R.id.menu_page5); //  마이 페이지
+        menu_page4 = findViewById(R.id.menu_page4); //  리뷰 페이지
+        menu_page5 = findViewById(R.id.menu_page5); //  마이 페이지
 
         translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
         translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
@@ -195,8 +195,8 @@ public class MainActivity extends AppCompatActivity {
                     menu_page1.setVisibility(View.VISIBLE);
                     menu_page2.setVisibility(View.INVISIBLE);
                     menu_page3.setVisibility(View.INVISIBLE);   //  지도 페이지
-                    //  menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
-                    //  menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
+                    menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
+                    menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
                     menu_page1.startAnimation(translateLeftAnim);
                 }
             }
@@ -453,8 +453,8 @@ public class MainActivity extends AppCompatActivity {
                 menu_page1.setVisibility(View.INVISIBLE);
                 menu_page2.setVisibility(View.VISIBLE);
                 menu_page3.setVisibility(View.VISIBLE); //  리뷰 페이지
-                //  menu_page4.setVisibility(View.VISIBLE); //  지도 페이지
-                //  menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
+                menu_page4.setVisibility(View.VISIBLE); //  지도 페이지
+                menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
                 isPage = false;
             }
             else {

@@ -1,0 +1,9 @@
+diff a/app/src/main/java/com/helpme/helpmemrboband/MainActivity.java b/app/src/main/java/com/helpme/helpmemrboband/MainActivity.java	(rejected hunks)
+@@ -38,7 +38,6 @@
+     private CircleManager circleManager;
+     private RelativeLayout layoutRoulette;
+ 
+-    private TextView tvResult;
+     private Button btnDrawRoulette15;
+     private Button btnDrawRouletteFav;
+     private Button btnRotate;

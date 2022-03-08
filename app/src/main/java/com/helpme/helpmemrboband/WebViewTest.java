@@ -35,7 +35,7 @@ public class WebViewTest extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testView.loadUrl("http://192.168.219.113:8081/helpmemrbob/");
+                testView.loadUrl("http://192.168.219.107:8081/helpmemrbob/");
             }
         });
 

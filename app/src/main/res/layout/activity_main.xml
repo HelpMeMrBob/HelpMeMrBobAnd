@@ -6,27 +6,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:layout_above="@+id/header"
     android:orientation="vertical">
 
     <include
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        layout="@layout/header"
+        layout="@layout/activity_roulette_bar"
         />
 
-    <!-- 지도 보러가기 -->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="지도"
-        android:id="@+id/map"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnDrawRoulette15"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:text="랜덤룰렛(15)"
+            android:backgroundTint="@color/orange"/>
 
-    <!-- 웹뷰 테스트 해보장 -->
-    <Button
+        <Button
+            android:id="@+id/btnDrawRouletteFav"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:text="선호목록 추가"
+            android:backgroundTint="@color/orange"/>
+
+    </LinearLayout>
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="웹뷰 테스트"
-        android:id="@+id/testView" />
+        android:layout_marginTop="20dp"
+        android:src="@drawable/sharp_label_black_18dp2"
+        android:layout_gravity="center" />
+
+    <RelativeLayout
+        android:id="@+id/layoutRoulette"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/background_roulette"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnRotate"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="30dp"
+        android:textSize="25dp"
+        android:text="spin"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/orange"/>
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Result : "
+        android:textSize="32sp"
+        android:layout_marginLeft="50dp"/>
 
 </LinearLayout> <!-- 전체영역 끝 -->

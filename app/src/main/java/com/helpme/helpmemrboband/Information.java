@@ -62,6 +62,9 @@ public class Information extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
 
+        Intent intent = getIntent();
+        String menu = intent.getStringExtra("menu");
+
         mapFragment = (SupportMapFragment)getSupportFragmentManager().
                 findFragmentById(R.id.map);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -138,6 +141,7 @@ public class Information extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
                     Map<String, String> map = new HashMap<>();
                     map.put("search", searchField.getText().toString());
 

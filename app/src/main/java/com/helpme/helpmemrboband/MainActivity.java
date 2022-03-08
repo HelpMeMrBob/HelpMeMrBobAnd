@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button map;
+    Button map, test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,12 +17,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         map = findViewById(R.id.map);
+        test = findViewById(R.id.testView);
 
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),
                         Information.class);
+
+                startActivity(intent);
+            }
+        });
+
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),
+                        WebViewTest.class);
 
                 startActivity(intent);
             }

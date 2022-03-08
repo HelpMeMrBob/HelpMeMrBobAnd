@@ -24,6 +24,9 @@
         android:theme="@style/Theme.HelpMeMrBobAnd"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".WebViewTest"
+            android:exported="false" />
+        <activity
             android:name=".DetailView"
             android:exported="false" />
         <activity

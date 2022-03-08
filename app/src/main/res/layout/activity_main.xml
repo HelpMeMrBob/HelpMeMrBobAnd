@@ -22,4 +22,11 @@
         android:text="지도"
         android:id="@+id/map"/>
 
+    <!-- 웹뷰 테스트 해보장 -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="웹뷰 테스트"
+        android:id="@+id/testView" />
+
 </LinearLayout> <!-- 전체영역 끝 -->

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -23,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> STRINGS;
     private float initAngle = 0.0f;
-    private int num_roulette;
+    private int num_roulette = 15;
 
     private boolean isPage = false;
 
@@ -132,12 +134,14 @@ public class MainActivity extends AppCompatActivity {
         foodList.add("만두");
         foodList.add("우동");
 
+        SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);
+        String inId = sharedPreferences.getString("id","");
+
         // 완전 랜덤 룰렛 버튼 클릭 (로그인X)
         btnDrawRoulette15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                num_roulette = 15;
                 STRINGS = setRandom(num_roulette);
                 circleManager = new CircleManager(MainActivity.this, num_roulette);
                 layoutRoulette.addView(circleManager);
@@ -148,9 +152,11 @@ public class MainActivity extends AppCompatActivity {
         btnDrawRouletteFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // ##### 로그인 정보가 없으면 로그인후 이용가능하다는 토스트 띄우기
+                if(inId == null || inId == "") {
+                    Toast.makeText(MainActivity.this, "로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                num_roulette = 15;
                 STRINGS = setRandomFav(num_roulette);
                 circleManager = new CircleManager(MainActivity.this, num_roulette);
                 layoutRoulette.addView(circleManager);
@@ -243,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }//// end of onCreate()
 
-    // 룰렛을 돌릴 각도를 받아와(getRandom()) 돌리는 함수
+    // 룰렛을 돌릴 각도를 받아와 돌리는 함수
     public void rotateLayout(final RelativeLayout layout, final int num) {
         final float fromAngle = getRandom(360) + 3600 + initAngle;
 

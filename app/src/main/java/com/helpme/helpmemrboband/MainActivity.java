@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private CircleManager circleManager;
     private RelativeLayout layoutRoulette;
 
-    private TextView tvResult;
     private Button btnDrawRoulette15;
     private Button btnDrawRouletteFav;
     private Button btnRotate;
@@ -77,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvResult = findViewById(R.id.tvResult);
         btnRotate = findViewById(R.id.btnRotate);
         btnDrawRoulette15 = findViewById(R.id.btnDrawRoulette15);
         btnDrawRouletteFav = findViewById(R.id.btnDrawRouletteFav);
@@ -270,13 +268,21 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> setRandom(int num) {
         ArrayList<String> strings = new ArrayList<>();
 
+        int a[] = new int [num];
         Random random = new Random();
 
         for(int i=0; i<num; i++) {
-            int j = random.nextInt(49);
-            strings.add(foodList.get(j));
-        }
+            a[i] = random.nextInt(49);
+            for(int j=0; j<i; j++) {
+                if(a[i]==a[j]) {
+                    i--;
+                }
+            }
 
+        }
+        for(int i=0; i<num; i++) {
+            strings.add(foodList.get(a[i]));
+        }
         return strings;
     }
 
@@ -291,9 +297,19 @@ public class MainActivity extends AppCompatActivity {
         strings.add("초밥");
         strings.add("떡튀순");
 
-        Iterator<String> iter = foodList.iterator();
+        int a[] = new int [num];
+        Random random = new Random();
+
         for(int i=0; i<num-6; i++) {
-            strings.add(iter.next());
+            a[i] = random.nextInt(49);
+            for(int j=0; j<i; j++) {
+                if(a[i]==a[j]) {
+                    i--;
+                }
+            }
+        }
+        for(int i=0; i<num; i++) {
+            strings.add(foodList.get(a[i]));
         }
 
         return strings;
@@ -358,8 +374,6 @@ public class MainActivity extends AppCompatActivity {
             text = STRINGS.get(14);
             buildAlert(text);
         }
-
-        tvResult.setText("Result : " + text);
     }
 
     // 룰렛 결과를 새 창으로 띄워서 보여주고, 주변 식당 정보로 이동
@@ -387,7 +401,6 @@ public class MainActivity extends AppCompatActivity {
     // 룰렛판을 그리는 클래스
     public class CircleManager extends View {
         private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        private int[] COLORS = {Color.YELLOW, Color.WHITE};
         private int num;
 
         public CircleManager(Context context, int num) {

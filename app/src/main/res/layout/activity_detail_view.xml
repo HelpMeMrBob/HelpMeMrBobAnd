@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailView"
+    android:layout_above="@+id/header"
     android:orientation="vertical">
 
     <include
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        layout="@layout/activity_roulette_bar"
-        />
+        android:layout_height="140dp"
+        layout="@layout/activity_map_bar" />
 
     <TextView
         android:layout_width="match_parent"
@@ -27,6 +27,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/orange"
         android:text="지도로 돌아가기"
         android:layout_gravity="center"
         android:id="@+id/finish_detail"/>

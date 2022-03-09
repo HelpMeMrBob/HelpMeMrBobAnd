@@ -20,9 +20,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +51,23 @@ import java.util.List;
 import java.util.Map;
 
 public class Information extends AppCompatActivity {
+
+    private Animation translateLeftAnim;
+    private Animation translateRightAnim;
+
+    private boolean isPage = false;
+
+    private LinearLayout menu_page1;
+    private FrameLayout menu_page2;
+    private Button button_page2;
+    private Button button_page3;
+    private Button button_page4;
+    private Button button_page5;
+
+    private FrameLayout menu_page3;
+    private FrameLayout menu_page4;
+    private FrameLayout menu_page5;
+    private ImageButton menu_button;
 
     String TAG = "SON";
     SupportMapFragment mapFragment;
@@ -193,6 +215,84 @@ public class Information extends AppCompatActivity {
                 map.addMarker(markerOptions);
             }
         });
+
+
+
+
+        /****************************************************/
+        menu_page1 = findViewById(R.id.menu_page1);
+        menu_page2 = findViewById(R.id.menu_page2);
+        menu_page3 = findViewById(R.id.menu_page3); //  지도 페이지
+        menu_page4 = findViewById(R.id.menu_page4); //  리뷰 페이지
+        menu_page5 = findViewById(R.id.menu_page5); //  마이 페이지
+
+        translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
+        translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
+
+        SlidingPageAnimationListener animationListener = new SlidingPageAnimationListener();
+
+        translateLeftAnim.setAnimationListener(animationListener);
+        translateRightAnim.setAnimationListener(animationListener);
+
+        menu_button = findViewById(R.id.menu_button);
+        menu_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPage) {
+                    menu_page1.startAnimation(translateRightAnim);
+                }
+                else {
+                    menu_page1.setVisibility(View.VISIBLE);
+                    //menu_page2.setVisibility(View.INVISIBLE);   // 룰렛
+                    menu_page3.setVisibility(View.INVISIBLE);   //  지도 페이지
+                    //menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
+                    //menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
+                    menu_page1.startAnimation(translateLeftAnim);
+                }
+            }
+        });
+/**************************************************************************************************/
+
+/************************************** 버튼 클릭시 페이지 이동 ***************************************/
+        //  룰렛 페이지(MainActivity로 설정 중. 나머지 입력 필요
+        button_page2 = findViewById(R.id.roulettePage);
+        button_page2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  지도 페이지 이동
+        button_page3 = findViewById(R.id.mapPage);
+        button_page3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent intent = new Intent(getApplicationContext(), Information.class);
+                //startActivity(intent);
+            }
+        });
+
+        //  리뷰 페이지 이동
+        button_page4 = findViewById(R.id.reviewPage);
+        button_page4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  마이 페이지 이동
+        button_page5 = findViewById(R.id.myPage);
+        button_page5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
+                startActivity(intent);
+            }
+        });
     }
 
     final LocationListener gpsLocationListener = new LocationListener() {
@@ -319,6 +419,35 @@ public class Information extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "검색 완료",
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+    private class SlidingPageAnimationListener implements Animation.AnimationListener {
+        @Override
+        public void onAnimationStart(Animation animation) {
+
+        }
+
+        public void onAnimationEnd(Animation animation) {
+            if (isPage) {
+                menu_page1.setVisibility(View.INVISIBLE);
+                //menu_page2.setVisibility(View.VISIBLE); // 룰렛 페이지
+                menu_page3.setVisibility(View.VISIBLE); //  지도 페이지
+                //menu_page4.setVisibility(View.VISIBLE); //  리뷰 페이지
+                //menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
+                isPage = false;
+            }
+            else {
+                isPage = true;
+            }
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
         }
     }
 }

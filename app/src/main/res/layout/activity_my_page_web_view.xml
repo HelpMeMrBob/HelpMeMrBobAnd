@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@+id/header"
-    tools:context=".Information"
+    tools:context=".MyPageWebView"
     android:orientation="vertical">
 
     <include
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        layout="@layout/activity_map_bar" />
+        layout="@layout/activity_mypage_bar"
+        />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <EditText
+
+        <WebView
+            android:id="@+id/web_view"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:id="@+id/searchField"
-            android:hint="검색어를 입력해주세요!"
-            android:selectAllOnFocus="true"
-            android:inputType="text"
-            android:imeOptions="actionSearch"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/orange"
             android:layout_gravity="right"
-            android:text="내 위치"
-            android:id="@+id/myLocation"/>
-        <fragment
-            android:id="@+id/map"
-            class="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:text="뒤로가기"
+            android:id="@+id/btn_back"/>
     </LinearLayout>
-
-
 </LinearLayout>

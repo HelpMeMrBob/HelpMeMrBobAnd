@@ -24,7 +24,25 @@
         android:theme="@style/Theme.HelpMeMrBobAnd"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".WebViewTest"
+            android:name=".ListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FindPwActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FindIdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FindActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MemberRegistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPageWebView"
             android:exported="false" />
         <activity
             android:name=".DetailView"

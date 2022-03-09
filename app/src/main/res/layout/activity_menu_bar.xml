@@ -98,7 +98,7 @@
             android:layout_gravity="center"
             android:background="#00ff0000"
             android:padding="10dp"
-            android:text="마이페이지"
+            android:text="로그인/마이페이지"
             android:id="@+id/myPage"
             android:textColor="#DFDFDF"
             android:textStyle="bold" />

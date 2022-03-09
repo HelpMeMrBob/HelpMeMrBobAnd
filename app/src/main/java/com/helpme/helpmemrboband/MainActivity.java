@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,22 +14,25 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout layoutRoulette;
 
     private Button btnDrawRoulette15;
-    private Button btnDrawRouletteFav;
+    private Spinner btnDrawRouletteFav;
     private Button btnRotate;
 
     private Animation translateLeftAnim;
@@ -47,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> STRINGS;
     private float initAngle = 0.0f;
-    private int num_roulette;
+    private int num_roulette = 15;
+
+    private String[] items = {"선호목록 추가","탭1","탭2","탭3",
+            "탭4","탭5"};
+    private String spinnerSelected = "선호목록 추가";
 
     private boolean isPage = false;
 
@@ -68,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressDialog dialog;
     // ***** 포트번호 변경할것
-    String requestFoodUrl = "http://192.168.219.107:8081/helpmemrbob/allFood.do";
+    String requestFoodUrl = "http://192.168.219.105:8081/helpmemrbob/allFood.do";
     ArrayList<String> foodList = new ArrayList<>();
 
     @Override
@@ -80,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
         btnDrawRoulette15 = findViewById(R.id.btnDrawRoulette15);
         btnDrawRouletteFav = findViewById(R.id.btnDrawRouletteFav);
         layoutRoulette = findViewById(R.id.layoutRoulette);
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this,
+                        R.layout.spinner_item,
+                        items);
+        btnDrawRouletteFav.setAdapter(adapter);
+        btnDrawRouletteFav.setSelection(0);
 
         // 음식목록 가져오기
         foodList.add("된장찌개");
@@ -132,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
         foodList.add("만두");
         foodList.add("우동");
 
+        SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);
+        String inId = sharedPreferences.getString("id","");
+
         // 완전 랜덤 룰렛 버튼 클릭 (로그인X)
         btnDrawRoulette15.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,15 +163,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 나만의 선호 리스트 가져와서 룰렛에 넣기 (로그인 시에만 가능)
-        btnDrawRouletteFav.setOnClickListener(new View.OnClickListener() {
+        btnDrawRouletteFav.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                // ##### 로그인 정보가 없으면 로그인후 이용가능하다는 토스트 띄우기
-
-                num_roulette = 15;
-                STRINGS = setRandomFav(num_roulette);
-                circleManager = new CircleManager(MainActivity.this, num_roulette);
-                layoutRoulette.addView(circleManager);
+            public boolean onTouch(View view, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if (inId == null || inId == "") {
+                        Toast.makeText(MainActivity.this, "로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+        btnDrawRouletteFav.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int i, long l) {
+                //선택한 항목의 인덱스 i가 전달되어 해당 항목을 알수있다.
+                if(i==1) {
+                    STRINGS = setRandomFav(num_roulette);
+                    circleManager = new CircleManager(MainActivity.this, num_roulette);
+                    layoutRoulette.addView(circleManager);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
@@ -169,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
         /****************************************************/
         menu_page1 = findViewById(R.id.menu_page1);
-        menu_page2 = findViewById(R.id.menu_page2);
+        menu_page2 = findViewById(R.id.menu_page2); //  룰렛 페이지
         menu_page3 = findViewById(R.id.menu_page3); //  지도 페이지
         menu_page4 = findViewById(R.id.menu_page4); //  리뷰 페이지
         menu_page5 = findViewById(R.id.menu_page5); //  마이 페이지
@@ -191,10 +225,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     menu_page1.setVisibility(View.VISIBLE);
-                    menu_page2.setVisibility(View.INVISIBLE);
-                    menu_page3.setVisibility(View.INVISIBLE);   //  지도 페이지
-                    menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
-                    menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
+                    menu_page2.setVisibility(View.INVISIBLE);   //  룰렛 페이지
+                    //menu_page3.setVisibility(View.INVISIBLE);   //  지도 페이지
+                    //menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
+                    //menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
                     menu_page1.startAnimation(translateLeftAnim);
                 }
             }
@@ -207,8 +241,8 @@ public class MainActivity extends AppCompatActivity {
         button_page2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivity(intent);
             }
         });
 
@@ -227,8 +261,8 @@ public class MainActivity extends AppCompatActivity {
         button_page4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                //    startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -237,8 +271,8 @@ public class MainActivity extends AppCompatActivity {
         button_page5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                //    startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
+                startActivity(intent);
             }
         });
     }//// end of onCreate()
@@ -464,10 +498,10 @@ public class MainActivity extends AppCompatActivity {
         public void onAnimationEnd(Animation animation) {
             if (isPage) {
                 menu_page1.setVisibility(View.INVISIBLE);
-                menu_page2.setVisibility(View.VISIBLE);
-                menu_page3.setVisibility(View.VISIBLE); //  리뷰 페이지
-                menu_page4.setVisibility(View.VISIBLE); //  지도 페이지
-                menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
+                menu_page2.setVisibility(View.VISIBLE); //  룰렛 페이지
+                //menu_page3.setVisibility(View.VISIBLE); //  리뷰 페이지
+                //menu_page4.setVisibility(View.VISIBLE); //  지도 페이지
+                //menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
                 isPage = false;
             }
             else {

@@ -168,10 +168,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP) {
-//                    if (inId == null || inId == "") {
-//                        Toast.makeText(MainActivity.this, "로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    }
+                    if (inId == null || inId == "") {
+                        Toast.makeText(MainActivity.this, "로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
                 }
                 return false;
             }

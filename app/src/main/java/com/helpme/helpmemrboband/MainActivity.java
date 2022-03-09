@@ -14,15 +14,19 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +45,12 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout layoutRoulette;
 
     private Button btnDrawRoulette15;
-    private Button btnDrawRouletteFav;
+    private Spinner btnDrawRouletteFav;
     private Button btnRotate;
+
+    private String[] items = {"선호목록 추가","탭1","탭2","탭3",
+            "탭4","탭5"};
+    private String spinnerSelected = "선호목록 추가";
 
     private Animation translateLeftAnim;
     private Animation translateRightAnim;
@@ -82,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
         btnDrawRoulette15 = findViewById(R.id.btnDrawRoulette15);
         btnDrawRouletteFav = findViewById(R.id.btnDrawRouletteFav);
         layoutRoulette = findViewById(R.id.layoutRoulette);
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this,
+                        R.layout.spinner_item,
+                        items);
+        btnDrawRouletteFav.setAdapter(adapter);
+        btnDrawRouletteFav.setSelection(0);
 
         // 음식목록 가져오기
         foodList.add("된장찌개");
@@ -149,17 +164,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 나만의 선호 리스트 가져와서 룰렛에 넣기 (로그인 시에만 가능)
-        btnDrawRouletteFav.setOnClickListener(new View.OnClickListener() {
+        btnDrawRouletteFav.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if(inId == null || inId == "") {
-                    Toast.makeText(MainActivity.this, "로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show();
-                    return;
+            public boolean onTouch(View view, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+//                    if (inId == null || inId == "") {
+//                        Toast.makeText(MainActivity.this, "로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show();
+//                        return true;
+//                    }
                 }
+                return false;
+            }
+        });
+        btnDrawRouletteFav.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-                STRINGS = setRandomFav(num_roulette);
-                circleManager = new CircleManager(MainActivity.this, num_roulette);
-                layoutRoulette.addView(circleManager);
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int i, long l) {
+                //선택한 항목의 인덱스 i가 전달되어 해당 항목을 알수있다.
+                if(i==1) {
+                    STRINGS = setRandomFav(num_roulette);
+                    circleManager = new CircleManager(MainActivity.this, num_roulette);
+                    layoutRoulette.addView(circleManager);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 

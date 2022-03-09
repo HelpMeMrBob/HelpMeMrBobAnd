@@ -18,7 +18,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <Button
             android:id="@+id/btnDrawRoulette15"
@@ -26,17 +27,22 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             android:backgroundTint="@color/orange"
+            android:gravity="center"
             android:textSize="18dp"
+            android:textColor="@color/white"
             android:text="랜덤룰렛(15)" />
 
-        <Button
+        <Spinner
             android:id="@+id/btnDrawRouletteFav"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/orange"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
             android:textSize="18dp"
-            android:text="선호목록 추가" />
+            android:textColor="@color/white"
+            android:background="@color/orange"
+            android:popupBackground="@color/orange"/>
 
     </LinearLayout>
 
@@ -64,6 +70,7 @@
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/orange"
         android:textSize="25dp"
+        android:textColor="@color/white"
         android:text="spin"
         android:layout_centerInParent="true" />
 

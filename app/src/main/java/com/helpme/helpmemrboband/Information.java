@@ -300,8 +300,7 @@ public class Information extends AppCompatActivity {
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
-                    startActivity(intent);
-                    Log.i("check", id + " : else 들어옴");
+                    startActivity(intent);Log.i("check", id + " : else 들어옴");
                 }
             }
         });

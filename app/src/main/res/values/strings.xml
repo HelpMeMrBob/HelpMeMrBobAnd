@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">HelpMeMrBobAnd</string>
-    <string name="server_addr">192.168.35.3</string>
-    <string name="ip">192.168.35.3</string>
+    <string name="server_addr">192.168.219.118</string>
+    <string name="ip">192.168.219.118</string>
 </resources>

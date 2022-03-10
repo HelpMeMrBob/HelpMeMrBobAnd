@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -23,7 +25,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText user_id, user_pw;
     TextView textResult;
     ProgressDialog dialog;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
         Button btn_findIdPw = findViewById(R.id.btn_findIdPw);
 
         btn_login.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
                 String requestUrl = "http://" + getString(R.string.server_addr)+
@@ -84,9 +85,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 new AsyncHttpRequest().execute(requestUrl);
 
-                SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);    // test 이름의 기본모드 설정
+                sharedPreferences = getSharedPreferences(sessionKey, MODE_PRIVATE);
                 SharedPreferences.Editor editor= sharedPreferences.edit(); //sharedPreferences를 제어할 editor를 선언
                 editor.putString("id",user_id.getText().toString()); // key,value 형식으로 저장
+                editor.putString("pass", user_pw.getText().toString());
                 editor.commit();    //최종 커밋. 커밋을 해야 저장이 된다.
             }
         });
@@ -270,16 +272,8 @@ public class LoginActivity extends AppCompatActivity {
                sb.append("패스워드: "+pass+"\n");
                sb.append("이름: "+name+"\n");
 
-               //로그인에 성공한 입력한값 입력
-               SharedPreferences sf = getSharedPreferences(sessionKey,MODE_PRIVATE);
-
-               String sid = sf.getString("id","");
-
-                   Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
-                   intent.putExtra("id", id);
-
-                   startActivity(intent);
-                   finish();
+               Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+               startActivity(intent);
 
            }else{
                sb.append("로그인 실패 ㅜㅜ");

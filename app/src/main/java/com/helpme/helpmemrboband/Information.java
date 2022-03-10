@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -78,6 +79,7 @@ public class Information extends AppCompatActivity {
     double longitude;
     double latitude;
     ArrayList<InfomationDTO> dtoList;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,8 @@ public class Information extends AppCompatActivity {
 
         Intent intent = getIntent();
         String menu = intent.getStringExtra("menu");
+        sharedPreferences = getSharedPreferences("SESSION_INFO", MODE_PRIVATE);
+        String id = sharedPreferences.getString("id", "empty");
 
         mapFragment = (SupportMapFragment)getSupportFragmentManager().
                 findFragmentById(R.id.map);
@@ -289,8 +293,16 @@ public class Information extends AppCompatActivity {
         button_page5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
-                startActivity(intent);
+                if (id.equals("empty")) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    Log.i("check", id + " : if 들어옴");
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
+                    startActivity(intent);
+                    Log.i("check", id + " : else 들어옴");
+                }
             }
         });
     }

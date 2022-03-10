@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout menu_page5;
     private ImageButton menu_button;
 
+    SharedPreferences sharedPreferences;
+
     // 로그인 정보 가져오기
     String inId;
 
@@ -147,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
         foodList.add("만두");
         foodList.add("우동");
 
-        SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);
-        String inId = sharedPreferences.getString("id","");
+        sharedPreferences = getSharedPreferences("SESSION_INFO", MODE_PRIVATE);
+        String id = sharedPreferences.getString("id", "empty");
 
         // 완전 랜덤 룰렛 버튼 클릭 (로그인X)
         btnDrawRoulette15.setOnClickListener(new View.OnClickListener() {
@@ -271,8 +273,16 @@ public class MainActivity extends AppCompatActivity {
         button_page5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
-                startActivity(intent);
+                if (id.equals("empty")) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    Log.i("check", id + " : if 들어옴");
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
+                    startActivity(intent);
+                    Log.i("check", id + " : else 들어옴");
+                }
             }
         });
     }//// end of onCreate()

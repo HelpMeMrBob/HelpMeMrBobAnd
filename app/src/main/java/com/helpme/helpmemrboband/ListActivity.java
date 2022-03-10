@@ -3,6 +3,7 @@ package com.helpme.helpmemrboband;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -63,6 +64,8 @@ public class ListActivity extends AppCompatActivity {
     ImageView imageView;
     Bitmap bitmap;
 
+    private Button write;
+
     ArrayList<String> item1 = new ArrayList<String>();
     ArrayList<String> item2 = new ArrayList<String>();
     ArrayList<String> item3 = new ArrayList<String>();
@@ -72,13 +75,16 @@ public class ListActivity extends AppCompatActivity {
     //ArrayList<String> item7 = new ArrayList<String>();
 
     ArrayList<Bitmap> item9 = new ArrayList<Bitmap>();
-
+    SharedPreferences sharedPreferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list);
+
+        sharedPreferences = getSharedPreferences("SESSION_INFO", MODE_PRIVATE);
+        String id = sharedPreferences.getString("id", "empty");
 
         //ProgressDialog객체생성
         dialog = new ProgressDialog(this);
@@ -92,6 +98,15 @@ public class ListActivity extends AppCompatActivity {
         new AsyncHttpRequest().execute(
                 "http://"+ip+":8081/helpmemrbob/android/list.do"
         );
+
+        write = findViewById(R.id.write);
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), WriteForm.class);
+                startActivity(intent);
+            }
+        });
 
 
         /****************************************************/
@@ -164,8 +179,16 @@ public class ListActivity extends AppCompatActivity {
         button_page5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
-                startActivity(intent);
+                if (id.equals("empty")) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    Log.i("check", id + " : if 들어옴");
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
+                    startActivity(intent);
+                    Log.i("check", id + " : else 들어옴");
+                }
             }
         });
     }

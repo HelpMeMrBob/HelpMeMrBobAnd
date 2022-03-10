@@ -63,8 +63,8 @@ public class HttpClient {
         setContentType(con);
         setRequestMethod(con);
 
-        con.setConnectTimeout(30 * 1000);
-        con.setReadTimeout(15 * 1000);
+        con.setConnectTimeout(30 * 10000);
+        con.setReadTimeout(15 * 10000);
         con.setDoOutput(true);
         con.setDoInput(true);
     }

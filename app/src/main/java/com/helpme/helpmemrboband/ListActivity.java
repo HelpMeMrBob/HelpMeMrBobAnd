@@ -51,10 +51,12 @@ public class ListActivity extends AppCompatActivity {
     private Button button_page3;
     private Button button_page4;
     private Button button_page5;
+    private Button button_page6;
 
     private FrameLayout menu_page3;
     private FrameLayout menu_page4;
     private FrameLayout menu_page5;
+    private FrameLayout menu_page6;
     private ImageButton menu_button;
 
     ListView listView;
@@ -63,8 +65,6 @@ public class ListActivity extends AppCompatActivity {
     //안드로이드에서 웹 이미지 가져오쟈
     ImageView imageView;
     Bitmap bitmap;
-
-    Button write;
 
     ArrayList<String> item1 = new ArrayList<String>();
     ArrayList<String> item2 = new ArrayList<String>();
@@ -99,15 +99,6 @@ public class ListActivity extends AppCompatActivity {
                 "http://"+ip+":8081/helpmemrbob/android/list.do"
         );
 
-        write = findViewById(R.id.write);
-        write.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), WriteForm.class);
-                startActivity(intent);
-            }
-        });
-
 
         /****************************************************/
         menu_page1 = findViewById(R.id.menu_page1);
@@ -115,6 +106,7 @@ public class ListActivity extends AppCompatActivity {
         menu_page3 = findViewById(R.id.menu_page3); //  지도 페이지
         menu_page4 = findViewById(R.id.menu_page4); //  리뷰 페이지
         menu_page5 = findViewById(R.id.menu_page5); //  마이 페이지
+        menu_page6 = findViewById(R.id.menu_page6); //  글쓰기 페이지
 
         translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
         translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
@@ -137,6 +129,7 @@ public class ListActivity extends AppCompatActivity {
                     //menu_page3.setVisibility(View.INVISIBLE);   //  지도 페이지
                     menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
                     //menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
+                    //menu_page6.setVisibility(View.INVISIBLE);   //  글쓰기 페이지
                     menu_page1.startAnimation(translateLeftAnim);
                 }
             }
@@ -182,12 +175,25 @@ public class ListActivity extends AppCompatActivity {
                 if (id.equals("empty")) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
-                    Log.i("check", id + " : if 들어옴");
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
                     startActivity(intent);
-                    Log.i("check", id + " : else 들어옴");
+                }
+            }
+        });
+
+        button_page6 = findViewById(R.id.write_form);
+        button_page6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id.equals("empty")) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), WriteForm.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -399,6 +405,7 @@ public class ListActivity extends AppCompatActivity {
                 //menu_page3.setVisibility(View.VISIBLE); //  지도 페이지
                 menu_page4.setVisibility(View.VISIBLE); //  리뷰 페이지
                 //menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
+                //menu_page6.setVisibility(View.VISIBLE); //  글쓰기 페이지
                 isPage = false;
             }
             else {

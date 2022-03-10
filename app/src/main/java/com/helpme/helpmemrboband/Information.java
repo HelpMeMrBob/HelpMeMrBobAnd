@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -64,10 +65,12 @@ public class Information extends AppCompatActivity {
     private Button button_page3;
     private Button button_page4;
     private Button button_page5;
+    private Button button_page6;
 
     private FrameLayout menu_page3;
     private FrameLayout menu_page4;
     private FrameLayout menu_page5;
+    private FrameLayout menu_page6;
     private ImageButton menu_button;
 
     String TAG = "SON";
@@ -91,7 +94,7 @@ public class Information extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("SESSION_INFO", MODE_PRIVATE);
         String id = sharedPreferences.getString("id", "empty");
 
-        mapFragment = (SupportMapFragment)getSupportFragmentManager().
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().
                 findFragmentById(R.id.map);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -153,11 +156,9 @@ public class Information extends AppCompatActivity {
 
         try {
             MapsInitializer.initialize(this);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
         // 검색어 입력 영역
@@ -187,23 +188,22 @@ public class Information extends AppCompatActivity {
         });
 
 
-
         //내 위치 버튼 영역
         myLocation = findViewById(R.id.myLocation);
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+                final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
                 if (Build.VERSION.SDK_INT >= 23 &&
                         ContextCompat.checkSelfPermission(
                                 getApplicationContext(),
                                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(Information.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                    ActivityCompat.requestPermissions(Information.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
                 }
                 else {
                     Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    provider = location.getProvider();
+
                     longitude = location.getLongitude();
                     latitude = location.getLatitude();
 
@@ -221,14 +221,13 @@ public class Information extends AppCompatActivity {
         });
 
 
-
-
         /****************************************************/
         menu_page1 = findViewById(R.id.menu_page1);
         menu_page2 = findViewById(R.id.menu_page2);
         menu_page3 = findViewById(R.id.menu_page3); //  지도 페이지
         menu_page4 = findViewById(R.id.menu_page4); //  리뷰 페이지
         menu_page5 = findViewById(R.id.menu_page5); //  마이 페이지
+        menu_page6 = findViewById(R.id.menu_page6); //  글쓰기 페이지
 
         translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
         translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
@@ -244,13 +243,13 @@ public class Information extends AppCompatActivity {
             public void onClick(View v) {
                 if (isPage) {
                     menu_page1.startAnimation(translateRightAnim);
-                }
-                else {
+                } else {
                     menu_page1.setVisibility(View.VISIBLE);
                     //menu_page2.setVisibility(View.INVISIBLE);   // 룰렛
                     menu_page3.setVisibility(View.INVISIBLE);   //  지도 페이지
                     //menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
                     //menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
+                    //menu_page6.setVisibility(View.INVISIBLE);   //  글쓰기 페이지
                     menu_page1.startAnimation(translateLeftAnim);
                 }
             }
@@ -297,10 +296,25 @@ public class Information extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     Log.i("check", id + " : if 들어옴");
-                }
-                else {
+                } else {
                     Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
-                    startActivity(intent);Log.i("check", id + " : else 들어옴");
+                    startActivity(intent);
+                    Log.i("check", id + " : else 들어옴");
+                }
+            }
+        });
+
+        //  글쓰기 페이지 이동
+        button_page6 = findViewById(R.id.write_form);
+        button_page6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id.equals("empty")) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), WriteForm.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -309,14 +323,10 @@ public class Information extends AppCompatActivity {
     final LocationListener gpsLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(@NonNull Location location) {
-            provider = location.getProvider();
             longitude = location.getLongitude();
             latitude = location.getLatitude();
         }
     };
-
-
-
 
 
     public class MapTask extends AsyncTask<Map, Integer, String> {
@@ -369,12 +379,10 @@ public class Information extends AppCompatActivity {
 
                         dtoList.add(dto);
                     }
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(getApplicationContext(), "무슨 에러일까..", Toast.LENGTH_SHORT).show();
             }
 
@@ -399,17 +407,15 @@ public class Information extends AppCompatActivity {
                     try {
                         String[] splitStr = temp.get(0).toString().split(",");
 
-                        add = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+                        add = splitStr[0].substring(splitStr[0].indexOf("\"") + 1, splitStr[0].length() - 2); // 주소
 
                         String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
                         String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
 
                         point = new LatLng(Double.valueOf(latitude), Double.valueOf(longitude));
-                    }
-                    catch (NumberFormatException e) {
+                    } catch (NumberFormatException e) {
                         e.printStackTrace();
-                    }
-                    catch (StringIndexOutOfBoundsException e) {
+                    } catch (StringIndexOutOfBoundsException e) {
                         e.printStackTrace();
                     }
 
@@ -422,8 +428,7 @@ public class Information extends AppCompatActivity {
 
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(
                         new LatLng(37.473339391474006, 126.89325025627143), 15));
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -432,8 +437,6 @@ public class Information extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 
     private class SlidingPageAnimationListener implements Animation.AnimationListener {
@@ -449,6 +452,7 @@ public class Information extends AppCompatActivity {
                 menu_page3.setVisibility(View.VISIBLE); //  지도 페이지
                 //menu_page4.setVisibility(View.VISIBLE); //  리뷰 페이지
                 //menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
+                //menu_page6.setVisibility(View.VISIBLE); //  글쓰기 페이지
                 isPage = false;
             }
             else {

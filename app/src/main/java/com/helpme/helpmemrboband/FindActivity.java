@@ -1,6 +1,7 @@
 package com.helpme.helpmemrboband;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -25,16 +26,23 @@ public class FindActivity extends AppCompatActivity {
     private Button button_page3;
     private Button button_page4;
     private Button button_page5;
+    private Button button_page6;
 
     private FrameLayout menu_page3;
     private FrameLayout menu_page4;
     private FrameLayout menu_page5;
+    private FrameLayout menu_page6;
     private ImageButton menu_button;
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
+
+        sharedPreferences = getSharedPreferences("SESSION_INFO", MODE_PRIVATE);
+        String id = sharedPreferences.getString("id", "empty");
 
         Button btn_FindId = findViewById(R.id.btn_findId);
         Button btn_FindPw = findViewById(R.id.btn_findPw);
@@ -68,6 +76,7 @@ public class FindActivity extends AppCompatActivity {
         menu_page3 = findViewById(R.id.menu_page3); //  지도 페이지
         menu_page4 = findViewById(R.id.menu_page4); //  리뷰 페이지
         menu_page5 = findViewById(R.id.menu_page5); //  마이 페이지
+        menu_page6 = findViewById(R.id.menu_page6); //  글쓰기 페이지
 
         translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
         translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
@@ -90,6 +99,7 @@ public class FindActivity extends AppCompatActivity {
                     //menu_page3.setVisibility(View.INVISIBLE);   //  지도 페이지
                     //menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
                     menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
+                    //menu_page6.setVisibility(View.INVISIBLE);   //  마이 페이지
                     menu_page1.startAnimation(translateLeftAnim);
                 }
             }
@@ -136,6 +146,22 @@ public class FindActivity extends AppCompatActivity {
                 //startActivity(intent);
             }
         });
+
+        //  글쓰기 페이지 이동
+        button_page6 = findViewById(R.id.write_form);
+        button_page6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id.equals("empty")) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), WriteForm.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
 
@@ -153,6 +179,7 @@ public class FindActivity extends AppCompatActivity {
                 //menu_page3.setVisibility(View.VISIBLE); //  리뷰 페이지
                 //menu_page4.setVisibility(View.VISIBLE); //  지도 페이지
                 menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
+                //menu_page6.setVisibility(View.VISIBLE); //  글쓰기 페이지
                 isPage = false;
             }
             else {

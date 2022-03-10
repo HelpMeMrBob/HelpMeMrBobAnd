@@ -17,9 +17,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +49,25 @@ import java.util.HashMap;
 
 public class WriteForm extends AppCompatActivity {
 
+    private Animation translateLeftAnim;
+    private Animation translateRightAnim;
+
+    private boolean isPage = false;
+
+    private LinearLayout menu_page1;
+    private FrameLayout menu_page2;
+    private Button button_page2;
+    private Button button_page3;
+    private Button button_page4;
+    private Button button_page5;
+    private Button button_page6;
+
+    private FrameLayout menu_page3;
+    private FrameLayout menu_page4;
+    private FrameLayout menu_page5;
+    private FrameLayout menu_page6;
+    private ImageButton menu_button;
+
     final private String TAG ="KOSMO";
     ImageView ivPicture;
     ProgressDialog dialog;
@@ -61,7 +85,16 @@ public class WriteForm extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("SESSION_INFO", MODE_PRIVATE);
         id = sharedPreferences.getString("id", "empty");
-        Toast.makeText(this, "글쓰기 로그인정보있음."+id,Toast.LENGTH_SHORT).show();
+        if (!id.equals("empty")) {
+            Toast.makeText(this, "글쓰기 로그인정보있음."+id,Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "로그인 정보 없음.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
 
         ivPicture = findViewById(R.id.ivPicture);
         title_et = findViewById(R.id.title);
@@ -78,6 +111,106 @@ public class WriteForm extends AppCompatActivity {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("글쓰기 처리중");
         dialog.setMessage("서버로부터 응답을 기다리고 있습니다.");
+
+
+        /****************************************************/
+        menu_page1 = findViewById(R.id.menu_page1);
+        menu_page2 = findViewById(R.id.menu_page2); //  룰렛 페이지
+        menu_page3 = findViewById(R.id.menu_page3); //  지도 페이지
+        menu_page4 = findViewById(R.id.menu_page4); //  리뷰 페이지
+        menu_page5 = findViewById(R.id.menu_page5); //  마이 페이지
+        menu_page6 = findViewById(R.id.menu_page6); //  글쓰기 페이지
+
+        translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
+        translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
+
+        SlidingPageAnimationListener animationListener = new SlidingPageAnimationListener();
+
+        translateLeftAnim.setAnimationListener(animationListener);
+        translateRightAnim.setAnimationListener(animationListener);
+
+        menu_button = findViewById(R.id.menu_button);
+        menu_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPage) {
+                    menu_page1.startAnimation(translateRightAnim);
+                }
+                else {
+                    menu_page1.setVisibility(View.VISIBLE);
+                    //menu_page2.setVisibility(View.INVISIBLE);   //  룰렛 페이지
+                    //menu_page3.setVisibility(View.INVISIBLE);   //  지도 페이지
+                    //menu_page4.setVisibility(View.INVISIBLE);   //  리뷰 페이지
+                    //menu_page5.setVisibility(View.INVISIBLE);   //  마이 페이지
+                    menu_page6.setVisibility(View.INVISIBLE);   //  글쓰기 페이지
+                    menu_page1.startAnimation(translateLeftAnim);
+                }
+            }
+        });
+/**************************************************************************************************/
+
+/************************************** 버튼 클릭시 페이지 이동 ***************************************/
+        //  룰렛 페이지(MainActivity로 설정 중. 나머지 입력 필요
+        button_page2 = findViewById(R.id.roulettePage);
+        button_page2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  지도 페이지 이동
+        button_page3 = findViewById(R.id.mapPage);
+        button_page3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Information.class);
+                startActivity(intent);
+            }
+        });
+
+        //  리뷰 페이지 이동
+        button_page4 = findViewById(R.id.reviewPage);
+        button_page4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  마이 페이지 이동
+        button_page5 = findViewById(R.id.myPage);
+        button_page5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id.equals("empty")) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), MyPageWebView.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        button_page6 = findViewById(R.id.write_form);
+        button_page6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (id.equals("empty")) {
+//                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                    startActivity(intent);
+//                }
+//                else {
+//                    Intent intent = new Intent(getApplicationContext(), WriteForm.class);
+//                    startActivity(intent);
+//                }
+            }
+        });
+
     }
 
     //이미지 선택
@@ -211,8 +344,8 @@ public class WriteForm extends AppCompatActivity {
             JSONArray rtn = null;
             try {
                 String sUrl
-                        = getString(R.string.server_addr)
-                        + "/helpmemrbob/fileUpload/uploadAndroid.do";
+                        = "http://" + getString(R.string.server_addr)
+                        + ":8081/helpmemrbob/fileUpload/uploadAndroid.do";
                 sUrl +="?id="+id;
                 sUrl +="&title="+title_et.getText().toString();
                 sUrl +="&contents="+content_et.getText().toString();
@@ -231,7 +364,7 @@ public class WriteForm extends AppCompatActivity {
 
                 String requestUrl =
                         "http://192.168.35.3:8081/helpmemrbob/android/write.do";
-                requestUrl +="?id="+"test7";
+                requestUrl +="?id="+id;
                 requestUrl +="&title="+title_et.getText().toString();
                 requestUrl +="&contents="+content_et.getText().toString();
                 requestUrl +="&userfile1="+filename;
@@ -262,6 +395,9 @@ public class WriteForm extends AppCompatActivity {
                 //String result = jsonArray.toString();
                 String result = saveFileName;
                 Toast.makeText(mContext, "파일 업로드 성공!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(intent);
             }
             else {
                 Toast.makeText(mContext, "파일 업로드 실패!", Toast.LENGTH_SHORT).show();
@@ -278,91 +414,32 @@ public class WriteForm extends AppCompatActivity {
         }
     }
 
-    class AsyncHttpRequest4 extends AsyncTask<String, Void, String>{
-        private Context mContext;
-        private HashMap<String, String> param;//파라미터
-        private HashMap<String, String> files;//사진파일
 
+
+    private class SlidingPageAnimationListener implements Animation.AnimationListener {
         @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-            if(!dialog.isShowing())
-                dialog.show();
+        public void onAnimationStart(Animation animation) {
+
         }
 
-        @Override
-        protected String doInBackground(String... strings) {
-            StringBuffer sBuffer = new StringBuffer();
-            JSONArray rtn = null;
-            try{
-                URL url = new URL(strings[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setDoOutput(true); //요게 있음 무조건 POST가 된다.
-                OutputStream out = connection.getOutputStream();
-                out.flush();
-                out.close();
-
-                if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                    Log.i(TAG, "HTTP OK 성공");
-
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(connection.getInputStream(), "UTF-8")
-                    );
-                    String responseData;
-
-                    while((responseData = reader.readLine()) != null){
-                        sBuffer.append(responseData+"\r\n");
-                    }
-                    reader.close();
-                }
-                else{
-                    Log.i(TAG, " HTTP OK안됨");
-                }
-                Log.i(TAG, sBuffer.toString());
-
-
-            }catch (Exception e){
-                e.printStackTrace();
+        public void onAnimationEnd(Animation animation) {
+            if (isPage) {
+                menu_page1.setVisibility(View.INVISIBLE);
+                //menu_page2.setVisibility(View.VISIBLE); //  룰렛 페이지
+                //menu_page3.setVisibility(View.VISIBLE); //  지도 페이지
+                //menu_page4.setVisibility(View.VISIBLE); //  리뷰 페이지
+                //menu_page5.setVisibility(View.VISIBLE); //  마이 페이지
+                menu_page6.setVisibility(View.VISIBLE); //  글쓰기 페이지
+                isPage = false;
             }
-            return sBuffer.toString();
+            else {
+                isPage = true;
+            }
         }
 
         @Override
-        protected void onPostExecute(String s){
-            super.onPostExecute(s);
+        public void onAnimationRepeat(Animation animation) {
 
-            Log.i(TAG,s);
-            dialog.dismiss();
-            String result = jsonParser(s);
         }
-    } //AsyncHttpRequest
-
-    //JSON데이터에 따라 내용은 달라짐
-    public String jsonParser(String data){
-        StringBuffer sb = new StringBuffer();
-
-        try{
-            JSONObject jsonObject = new JSONObject(data);
-            int success = Integer.parseInt(jsonObject.getString("isLogin"));
-            if(success ==1){
-                sb.append("로그인 성공^^\n");
-                JSONObject memberInfo = jsonObject.getJSONObject("memberInfo");
-                String id = memberInfo.getString("id").toString();
-                String pass = memberInfo.getString("pass").toString();
-                String name = memberInfo.getString("name").toString();
-
-                sb.append("===================\n");
-                sb.append("아이디: "+id+"\n");
-                sb.append("패스워드: "+pass+"\n");
-                sb.append("이름: "+name+"\n");
-
-            }else{
-                sb.append("로그인 실패 ㅜㅜ");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return sb.toString();
     }
 }

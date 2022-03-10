@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/header"
-        layout="@layout/activity_review_bar"
+        layout="@layout/activity_write_form_bar"
         android:layout_width="match_parent"
         android:layout_height="140dp" />
     <LinearLayout

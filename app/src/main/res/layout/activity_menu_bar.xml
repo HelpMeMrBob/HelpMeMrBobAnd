@@ -42,7 +42,7 @@
         android:orientation="horizontal"
         android:visibility="invisible">
         <Button
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="#00ff0000"
@@ -59,7 +59,7 @@
             android:background="#DFDFDF" />
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="#00ff0000"
@@ -76,7 +76,7 @@
             android:background="#DFDFDF" />
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="#00ff0000"
@@ -93,7 +93,24 @@
             android:background="#DFDFDF" />
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="#00ff0000"
+            android:padding="10dp"
+            android:text="글쓰기"
+            android:id="@+id/write_form"
+            android:textColor="#DFDFDF"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:background="#DFDFDF" />
+
+        <Button
+            android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="#00ff0000"

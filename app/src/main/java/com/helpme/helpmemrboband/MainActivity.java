@@ -46,16 +46,16 @@ public class MainActivity extends AppCompatActivity {
     private Spinner btnDrawRouletteFav;
     private Button btnRotate;
 
+    private String[] items = {"선호목록 추가","탭1","탭2","탭3",
+            "탭4","탭5"};
+    private String spinnerSelected = "선호목록 추가";
+
     private Animation translateLeftAnim;
     private Animation translateRightAnim;
 
     private ArrayList<String> STRINGS;
     private float initAngle = 0.0f;
     private int num_roulette = 15;
-
-    private String[] items = {"선호목록 추가","탭1","탭2","탭3",
-            "탭4","탭5"};
-    private String spinnerSelected = "선호목록 추가";
 
     private boolean isPage = false;
 
@@ -155,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                num_roulette = 15;
                 STRINGS = setRandom(num_roulette);
                 circleManager = new CircleManager(MainActivity.this, num_roulette);
                 layoutRoulette.addView(circleManager);
@@ -188,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }//// end of onCreate()
 
-    // 룰렛을 돌릴 각도를 받아와(getRandom()) 돌리는 함수
+    // 룰렛을 돌릴 각도를 받아와 돌리는 함수
     public void rotateLayout(final RelativeLayout layout, final int num) {
         final float fromAngle = getRandom(360) + 3600 + initAngle;
 

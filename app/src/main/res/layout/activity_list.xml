@@ -8,6 +8,21 @@
     android:orientation="vertical"
     tools:context=".ListActivity">
 
+    <include
+        android:id="@+id/header"
+        layout="@layout/activity_review_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="글쓰기"
+        android:id="@+id/write_button"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="310dp"
+        android:padding="5dp">
+    </Button>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

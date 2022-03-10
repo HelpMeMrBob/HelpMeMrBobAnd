@@ -13,17 +13,6 @@
         layout="@layout/activity_review_bar"
         android:layout_width="match_parent"
         android:layout_height="140dp" />
-    <Button
-        android:id="@+id/reg_button"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="285dp"
-        android:padding="10dp"
-        android:text="등록하기"
-        android:textColor="#FFFFFF"
-        android:background="#C62828"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,21 +34,73 @@
             android:hint="제목을 입력하세요."
             />
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="내용"/>
-
-    <EditText
-        android:id="@+id/content"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textAlignment="center"
+            android:text="내용"/>
+
+        <EditText
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#eeeeee"
+            android:hint="내용을 입력하세요."
+            android:padding="16dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#eeeeee"
-        android:hint="내용을 입력하세요."
-        android:padding="16dp" />
+        android:orientation="vertical">
+
+        <!-- 안드로이드에서 선택한 이미지가 업로드 되기전 임시로 출력 -->
+        <ImageView
+            android:id="@+id/ivPicture"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:scaleType="center"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnGetPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onBtnGetPicture"
+            android:text="이미지 선택" />
+
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onBtnUpload"
+            android:text="파일 업로드" />
+
+        <Button
+            android:id="@+id/btnFinish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onBtnFinish"
+            android:text="종료" />
+    </LinearLayout>
 
 
 </LinearLayout>

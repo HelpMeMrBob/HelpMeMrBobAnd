@@ -64,7 +64,7 @@ public class ListActivity extends AppCompatActivity {
     ImageView imageView;
     Bitmap bitmap;
 
-    private Button write;
+    Button write;
 
     ArrayList<String> item1 = new ArrayList<String>();
     ArrayList<String> item2 = new ArrayList<String>();
